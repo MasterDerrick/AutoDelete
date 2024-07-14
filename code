@@ -1,1 +1,31 @@
+import os 
+import time 
+#call the file path
+folder_path = "C:\\Users\\derri\\Desktop\\AMGbackup"
 
+#show all the files with in 
+all_files = os.listdir(folder_path)
+print (all_files)
+
+#count the number of files
+file_count = len(all_files )
+print (file_count)
+
+if file_count > 3:
+    # Get creation times for each file
+    files_with_ctime = [(all_files, os.path.getctime(os.path.join(folder_path, all_files))) for all_files in all_files]
+
+    # Sort files by creation time (oldest first)
+    files_with_ctime.sort(key=lambda x: x[1])
+
+    # Identify the oldest file
+    oldest_file = files_with_ctime[0][0]
+
+    # Delete the oldest file
+    try:
+        os.remove(os.path.join(folder_path, oldest_file))
+        print(f"Deleted oldest file: {oldest_file}")
+    except PermissionError as e:
+        print(f"Failed to delete {oldest_file}: {e}")
+else:
+    print("Number of files is less than 3; no file deleted.")
